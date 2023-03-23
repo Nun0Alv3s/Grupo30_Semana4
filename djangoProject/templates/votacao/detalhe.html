@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vote</title>
+	<style>
+		body {
+
+			font-family: Arial, sans-serif;
+			background-color: #f2f2f2;
+			color: #333;
+			margin: 0;
+			padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+		}
+
+		h1 {
+			font-size: 2.5rem;
+			margin: 1rem 0;
+		}
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+            font-size: 24px;
+        }
+
+		label {
+			display: block;
+            text-align: center;
+			font-size: 1.2rem;
+			font-weight: bold;
+			margin: 1rem 0 0.5rem;
+		}
+
+		input[type="radio"] {
+			margin-right: 0.5rem;
+		}
+
+		input[type="submit"] {
+			margin-top: 1.5rem;
+			background-color: #4CAF50;
+			color: white;
+			border: none;
+			padding: 0.5rem 1rem;
+			border-radius: 4px;
+			cursor: pointer;
+			font-size: 1.2rem;
+			font-weight: bold;
+			transition: background-color 0.2s ease-in-out;
+		}
+
+		input[type="submit"]:hover {
+			background-color: #3e8e41;
+		}
+
+		button {
+			margin-top: 1.5rem;
+			background-color: #4CAF50;
+			color: white;
+			border: none;
+			padding: 0.5rem 1rem;
+			border-radius: 4px;
+			cursor: pointer;
+			font-size: 1.2rem;
+			font-weight: bold;
+			transition: background-color 0.2s ease-in-out;
+		}
+
+		button:hover {
+			background-color: #3e8e41;
+		}
+
+		p {
+			font-size: 1.2rem;
+			margin: 1rem 0;
+		}
+	</style>
+</head>
+<body>
+	<h1>{{ questao.questao_texto }}</h1>
+	{% if error_message %}
+		<p><strong>{{ error_message }}</strong></p>
+	{% endif %}
+	<form action="{% url 'votacao:voto' questao.id %}" method="post">
+		{% csrf_token %}
+		{% for opcao in questao.opcao_set.all %}
+			<input type="radio" name="opcao" id="opcao{{ forloop.counter }}" value="{{ opcao.id }}" />
+			<label for="opcao{{ forloop.counter }}">{{ opcao.opcao_texto }}</label>
+			<br />
+		{% endfor %}
+		<input type="submit" value="Voto" />
+	</form>
+	<a href="{% url 'votacao:criaropcao' questao.id%}" ><button> Criar Opção </button></a>
+</body>
+</html>

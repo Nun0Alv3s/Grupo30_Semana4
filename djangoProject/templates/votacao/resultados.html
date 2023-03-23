@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Results</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f2f2f2;
+			color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+		h1 {
+			margin-top: 50px;
+			text-align: center;
+			font-size: 36px;
+			font-weight: bold;
+			text-transform: uppercase;
+			letter-spacing: 2px;
+		}
+		ul {
+         width: 40%;
+			list-style: none;
+			padding: 0;
+			margin: 20px 0;
+		}
+		li {
+			background-color: #fff;
+			padding: 10px;
+			margin-bottom: 10px;
+			border-radius: 5px;
+			box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+		}
+		li:hover {
+			background-color: #f2f2f2;
+		}
+       button {
+        background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 20px 0;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 24px;
+       }
+	</style>
+</head>
+<body>
+	<h1>{{ questao.questao_texto }}</h1>
+	<ul>
+		{% for opcao in questao.opcao_set.all %}
+			<li>{{ opcao.opcao_texto }} -- {{ opcao.votos }} voto{{ opcao.votos|pluralize }}</li>
+		{% endfor %}
+	</ul>
+	<a href="{% url 'votacao:detalhe' questao.id %}"><button>Votar novamente?</button></a>
+</body>
+</html>

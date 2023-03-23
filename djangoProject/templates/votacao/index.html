@@ -1,0 +1,76 @@
+
+<style>
+
+  body {
+
+			font-family: Arial, sans-serif;
+			background-color: #f2f2f2;
+			color: #333;
+  }
+  /* Style for the question list */
+  .question-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* Style for each question item */
+  .question-item {
+    margin: 10px;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+
+  .question-item:hover {
+background-color: #f2f2f2;
+  }
+
+  /* Style for the "Create Question" button */
+  .create-question-btn {
+    display: block;
+    width: 200px;
+    margin: 20px auto;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: #fff !important;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: background-color 0.3s ease-in-out;
+  }
+
+  .create-question-btn:hover {
+    background-color: #3e8e41;
+  }
+
+  a,
+  a:visited{
+   color: #000;
+   text-decoration: none;
+  }
+
+</style>
+
+{% if latest_question_list %}
+<ul class="question-list">
+  {% for questao in latest_question_list %}
+    <li class="question-item">
+      <a href="{% url 'votacao:detalhe' questao.id %}">
+        {{ questao.questao_texto }}
+      </a>
+    </li>
+  {% endfor %}
+</ul>
+{% else %}
+  <p>Não há questões disponíveis.</p>
+{% endif %}
+<a href="{% url 'votacao:criarquestao' %}" class="create-question-btn">
+  Criar Questão
+</a>
+

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <style>
+
+        body {
+
+			font-family: Arial, sans-serif;
+			background-color: #f2f2f2;
+			color: #333;
+        }
+        /* Style for the page title */
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 36px;
+        }
+
+        /* Style for the error message */
+        .error-message {
+            text-align: center;
+            color: red;
+            margin-top: 20px;
+            margin-bottom: 0;
+            font-size: 18px;
+        }
+
+        /* Style for the form */
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+            font-size: 24px;
+        }
+
+        /* Style for the labels */
+        label {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        /* Style for the input fields */
+        input[type=text], input[type=password] {
+            width: 40%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: none;
+            border-bottom: 2px solid #ddd;
+            border-radius: 16px;
+        }
+
+        /* Style for the submit button */
+        input[type=submit] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 20px 0;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        /* Hover effect for the submit button */
+        input[type=submit]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<h1>Login</h1>
+{% if error_message %}
+<p class="error-message"><strong>{{ error_message }}</strong></p>
+{% endif %}
+<form method="POST" action="{% url 'votacao:login' %}">
+    {% csrf_token %}
+    <label for="username">Nome de usuário:</label>
+    <input type="text" id="username" name="username" required>
+    <label for="password">Senha:</label>
+    <input type="password" id="password" name="password" required>
+    <input type="submit" value="Entrar">
+</form>
+</body>
+</html>

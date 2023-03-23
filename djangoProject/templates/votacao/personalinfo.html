@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>User Info</title>
+	<style>
+        /* Style for the page title */
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 36px;
+        }
+
+        /* Style for the user info */
+        p {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        /* Style for the welcome message */
+        .welcome {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 36px;
+        }
+
+        /* Style for the login and register links */
+        a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+	{% if request.user.is_authenticated %}
+		<h1>User Info</h1>
+		<p><strong>Username:</strong> {{ aluno.user.username }}</p>
+		<p><strong>Course:</strong> {{ aluno.curso }}</p>
+		<p><strong>Email:</strong> {{ aluno.user.email }}</p>
+	{% else %}
+		<div class="welcome">
+			<h1>Welcome!</h1>
+			<p>Please <a href="{% url 'login' %}">login</a> or <a href="{% url 'register' %}">register</a> to access user info.</p>
+		</div>
+	{% endif %}
+</body>
+</html>
