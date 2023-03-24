@@ -2,6 +2,9 @@
 <style>
 
   body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     font-family: Arial, sans-serif;
     background-color: #f2f2f2;
     color: #333;
@@ -54,14 +57,35 @@ background-color: #f2f2f2;
    text-decoration: none;
   }
 
+  .login_div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    gap: 15px;
+    margin-right: 20px;
+    height: 51px;
+  }
+
+  button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 4px 6px;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    font-size: 12px;
+    width: 50px;
+  }
+
 </style>
-<div class="wrapper"></div>
-<div style="position: absolute; top: 10px; right: 10px;">
+<div class="login_div">
   {% if user.is_authenticated %}
-    <p>Logged in</p>
-    <a href=""><button>Logout</button></a>
+    <p>Logged in as {{request.user}}</p>
+    <a href="{% url 'votacao:logout' %}"><button>Logout</button></a>
   {% else %}
-    <a href="{% url 'login' %}"><button>Login</button></a>
+    <a href="{% url 'votacao:login' %}"><button>Login</button></a>
   {% endif %}
 </div>
 {% if latest_question_list %}
@@ -75,10 +99,11 @@ background-color: #f2f2f2;
     </li>
   {% endfor %}
 </ul>
+  <a href="{% url 'votacao:criarquestao' %}" class="create-question-btn">
+  Criar Questão
+</a>
 {% else %}
   <p>Não há questões disponíveis.</p>
 {% endif %}
-<a href="{% url 'votacao:criarquestao' %}" class="create-question-btn">
-  Criar Questão
-</a>
+
 

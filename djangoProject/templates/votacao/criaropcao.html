@@ -1,11 +1,59 @@
-<h1>{{ questao.questao_texto }}</h1>
-{% if error_message %}
-<p><strong>{{ error_message }}</strong></p>
-{% endif %}
-<form action="{% url 'votacao:gravaopcao' questao.id %}"
-method="post">
-{% csrf_token %}
-    <label for="opcao">Texto da nova opção: </label>
-<input type="text" name="opcao" id="opcao" />
-<input type="submit" value="Gravar nova opção" />
-</form>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Gravar nova opção</title>
+	<style>
+		form {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-top: 50px;
+		}
+
+        h1 {
+            text-align: center;
+        }
+
+		label {
+			font-size: 1.2em;
+			margin-bottom: 10px;
+		}
+
+		input[type="text"] {
+			padding: 10px;
+			font-size: 1.2em;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			margin-bottom: 20px;
+			width: 300px;
+		}
+
+		input[type="submit"] {
+			padding: 10px 20px;
+			font-size: 1.2em;
+			background-color: #4CAF50;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			transition: background-color 0.3s ease;
+		}
+
+		input[type="submit"]:hover {
+			background-color: #3e8e41;
+		}
+	</style>
+</head>
+<body>
+	<h1>{{ questao.questao_texto }}</h1>
+	{% if error_message %}
+		<p><strong>{{ error_message }}</strong></p>
+	{% endif %}
+	<form action="{% url 'votacao:gravaopcao' questao.id %}" method="post">
+		{% csrf_token %}
+	    <label for="opcao">Texto da nova opção: </label>
+		<input type="text" name="opcao" id="opcao" />
+		<input type="submit" value="Gravar nova opção" />
+	</form>
+</body>
+</html>
