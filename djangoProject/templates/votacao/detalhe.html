@@ -78,6 +78,10 @@
 			font-size: 1.2rem;
 			margin: 1rem 0;
 		}
+
+		button.red_button {
+			background-color: #ff2400 ;
+		}
 	</style>
 </head>
 <body>
@@ -95,5 +99,6 @@
 		<input type="submit" value="Voto" />
 	</form>
 	<a href="{% url 'votacao:criaropcao' questao.id%}" ><button> Criar Opção </button></a>
+	<a href="{% url 'votacao:excluirquestao' questao.id%}" ><button class="red_button"> Excluir questão </button></a>
 </body>
 </html>

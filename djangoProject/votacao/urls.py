@@ -23,8 +23,13 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     # ex: votacao/login
     path('login/', views.login, name='login'),
+    # ex: votacao/logout
+    path('logout/', views.logout, name='logout'),
     # ex: votacao/personalinfo
-    path('personalinfo/', views.personalinfo, name='personalinfo')
+    path('personalinfo/', views.personalinfo, name='personalinfo'),
+    # ex votacao/3/gravaopcao
+    path('<int:questao_id>/exluirquestao', views.excluirquestao, name='excluirquestao'),
+
 
 ]
 

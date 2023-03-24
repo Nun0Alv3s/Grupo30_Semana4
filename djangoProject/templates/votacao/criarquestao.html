@@ -1,3 +1,48 @@
+<style>
+    form {
+  margin: 20px auto;
+  width: 50%;
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 5px;
+        text-align: center;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+input[type="text"] {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+input[type="submit"] {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-top: 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+input[type="submit"]:hover {
+  background-color: #3e8e41;
+}
+
+</style>
 {% if error_message %}
 <p><strong>{{ error_message }}</strong></p>
 {% endif %}

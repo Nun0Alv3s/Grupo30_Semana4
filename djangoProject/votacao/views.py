@@ -1,12 +1,10 @@
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render
 from django.http import Http404, HttpResponse, HttpResponseRedirect
-from django.template import loader
 from django.urls import reverse
 from .models import Questao, Opcao, Aluno
 from django.utils import timezone
-from django.contrib.auth import authenticate, login as django_login
-from django.contrib.auth import logout
+from django.contrib.auth import authenticate, login as django_login, logout as django_logout
 from django.shortcuts import render, redirect
 
 
@@ -97,7 +95,6 @@ def register(request):
     return render(request, 'votacao/register.html')
 
 
-
 def login(request):
     if request.method == 'POST':
         try:
@@ -115,9 +112,9 @@ def login(request):
     return render(request, 'votacao/login.html')
 
 
-def logoutview(request):
-    logout(request)
-    return HttpResponseRedirect(reverse('votacao:loginmenu'))
+def logout(request):
+    django_logout(request)
+    return render(request, 'votacao/index.html')
 
 
 def personalinfo(request):
@@ -125,6 +122,26 @@ def personalinfo(request):
         return render(request, 'votacao/login_error.html')
     aluno = get_object_or_404(Aluno, user_id=request.user.id)
     return render(request, 'votacao/personalinfo.html', {'aluno': aluno})
+
+def excluirquestao(request, questao_id):
+    questao = get_object_or_404(Questao, pk=questao_id)
+    try:
+        questao.delete()
+    except:
+        return render(request, 'votacao/detalhe.html', {'questao': questao, 'error_message': "Erro ao excluir questão", })
+    else:
+        return HttpResponseRedirect(reverse('votacao:index'))
+
+
+def excluiropcao(request, questao_id, opcao_id):
+    questao = get_object_or_404(Questao, pk=questao_id)
+    opcao = get_object_or_404(Opcao, pk=opcao_id)
+    try:
+        opcao.delete()
+    except:
+        return render(request, 'votacao/detalhe.html', {'questao': questao, 'error_message': "Erro ao excluir opção", })
+    else:
+        return HttpResponseRedirect(reverse('votacao:detalhe', args=(questao.id,)))
 
 
 
