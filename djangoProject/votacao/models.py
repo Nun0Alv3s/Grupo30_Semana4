@@ -30,6 +30,7 @@ class Opcao(models.Model):
 class Aluno(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     curso = models.CharField(max_length=50)
+    numero_votos = models.IntegerField(default=0)
 
     def __str__(self):
         return self.user.username
