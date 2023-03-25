@@ -20,20 +20,34 @@
 			margin: 1rem 0;
 		}
 
-        form {
-            display: flex;
-            flex-direction: column;
+		.form_div {
+			display: flex;
+            flex-direction: row;
             align-items: center;
             margin-top: 50px;
             font-size: 24px;
-        }
+			gap: 30px;
+			text-align: center;
+		}
+
+		.form_sub_div {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			gap: 10px;
+		}
+
+		form{
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
 
 		label {
 			display: block;
             text-align: center;
 			font-size: 1.2rem;
 			font-weight: bold;
-			margin: 1rem 0 0.5rem;
 		}
 
 		input[type="radio"] {
@@ -79,26 +93,55 @@
 			margin: 1rem 0;
 		}
 
-		button.red_button {
+		red_button {
 			background-color: #ff2400 ;
 		}
+
+		.login_div {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			gap: 20px;
+			margin-top: 30px;
+		}
+
+		button.center {
+			margin: 0;
+		}
+
 	</style>
 </head>
 <body>
 	<h1>{{ questao.questao_texto }}</h1>
 	{% if error_message %}
-		<p><strong>{{ error_message }}</strong></p>
+		<p style="color: #ff2400"><strong>{{ error_message }}</strong></p>
 	{% endif %}
 	<form action="{% url 'votacao:voto' questao.id %}" method="post">
 		{% csrf_token %}
+		<div class="form_div">
 		{% for opcao in questao.opcao_set.all %}
-			<input type="radio" name="opcao" id="opcao{{ forloop.counter }}" value="{{ opcao.id }}" />
-			<label for="opcao{{ forloop.counter }}">{{ opcao.opcao_texto }}</label>
-			<br />
+			<div class="form_sub_div">
+				<input type="radio" name="opcao" id="opcao{{ forloop.counter }}" value="{{ opcao.id }}" />
+				<label for="opcao{{ forloop.counter }}">{{ opcao.opcao_texto }}</label>
+				{% if user.is_superuser %}
+					<a href="{% url 'votacao:excluiropcao' questao.id opcao.id%}" > <button type="button" class="red_button center" > Excluir</button> </a>
+				{% endif %}
+				<br />
+			</div>
 		{% endfor %}
-		<input type="submit" value="Voto" />
+		</div>
+		{% if user.is_authenticated %}
+			<input type="submit" value="Voto" />
+		{% else %}
+		<div class="login_div">
+			<p><strong>Para votar precisa de efetuar o login</strong></p>
+			<a href="{% url 'votacao:login' %}"><button type="button" class="center">Login</button></a>
+		</div>
+		{% endif %}
 	</form>
-	<a href="{% url 'votacao:criaropcao' questao.id%}" ><button> Criar Opção </button></a>
-	<a href="{% url 'votacao:excluirquestao' questao.id%}" ><button class="red_button"> Excluir questão </button></a>
+	{% if user.is_superuser %}
+		<a href="{% url 'votacao:criaropcao' questao.id%}" ><button> Criar Opção </button></a>
+		<a href="{% url 'votacao:excluirquestao' questao.id%}" ><button class="red_button"> Excluir questão </button></a>
+	{% endif %}
 </body>
 </html>

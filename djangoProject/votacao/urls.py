@@ -14,11 +14,11 @@ urlpatterns = [
     # ex votacao/3/gravaopcao
     path('<int:questao_id>/gravaopcao', views.gravaopcao, name='gravaopcao'),
     # ex: votacao/1
-    path('<int:questao_id>', views.detalhe,name='detalhe'),
+    path('<int:questao_id>', views.detalhe, name='detalhe'),
     # ex: votacao/3/resultados
     path('<int:questao_id>/resultados', views.resultados, name='resultados'),
     # ex: votacao/5/voto
-    path('<int:questao_id>/voto', views.voto,name='voto'),
+    path('<int:questao_id>/voto', views.voto, name='voto'),
     # ex: votacao/register
     path('register/', views.register, name='register'),
     # ex: votacao/login
@@ -27,8 +27,11 @@ urlpatterns = [
     path('logout/', views.logout, name='logout'),
     # ex: votacao/personalinfo
     path('personalinfo/', views.personalinfo, name='personalinfo'),
-    # ex votacao/3/gravaopcao
+    # ex votacao/3/excluirquestao
     path('<int:questao_id>/exluirquestao', views.excluirquestao, name='excluirquestao'),
+    # ex votacao/3/1/excluiropcao
+    path('<int:questao_id>/<int:opcao_id>/exluiropcao', views.excluiropcao, name='excluiropcao'),
+
 
 
 ]
