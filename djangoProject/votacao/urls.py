@@ -7,12 +7,8 @@ urlpatterns = [
     path("", views.index, name='index'),
     # ex votacao/criarquestao
     path("criarquestao", views.criarquestao, name='criarquestao'),
-    # ex votacao/gravaquestao
-    path("gravaquestao", views.gravaquestao, name='gravaquestao'),
     # ex votacao/1/criarquestao
     path('<int:questao_id>/criaropcao', views.criaropcao, name='criaropcao'),
-    # ex votacao/3/gravaopcao
-    path('<int:questao_id>/gravaopcao', views.gravaopcao, name='gravaopcao'),
     # ex: votacao/1
     path('<int:questao_id>', views.detalhe, name='detalhe'),
     # ex: votacao/3/resultados
@@ -28,7 +24,7 @@ urlpatterns = [
     # ex: votacao/personalinfo
     path('personalinfo/', views.personalinfo, name='personalinfo'),
     # ex votacao/3/excluirquestao
-    path('<int:questao_id>/exluirquestao', views.excluirquestao, name='excluirquestao'),
+    path('<int:questao_id>/excluirquestao', views.excluirquestao, name='excluirquestao'),
     # ex votacao/3/1/excluiropcao
     path('<int:questao_id>/<int:opcao_id>/exluiropcao', views.excluiropcao, name='excluiropcao'),
 

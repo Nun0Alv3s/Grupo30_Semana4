@@ -56,13 +56,10 @@ def resultados(request, questao_id):
 
 
 def criarquestao(request):
-    if request.user.is_superuser:
-        return render(request, 'votacao/criarquestao.html')
-    raise PermissionDenied()
+    if not request.user.is_superuser:
+        raise PermissionDenied()
 
-
-def gravaquestao(request):
-    if request.user.is_superuser:
+    if request.method == 'POST':
         try:
             input = request.POST['questao']
             questao = Questao(questao_texto=input, pub_data=timezone.now())
@@ -70,29 +67,27 @@ def gravaquestao(request):
         except:
             return render(request, 'votacao/criarquestao.html', {'error_message': "Erro ao criar questão", })
         return HttpResponseRedirect(reverse('votacao:index'))
-    raise PermissionDenied()
+    return render(request, 'votacao/criarquestao.html')
 
 
 def criaropcao(request, questao_id):
-    if request.user.is_superuser:
-        questao = get_object_or_404(Questao, pk=questao_id)
-        return render(request, 'votacao/criaropcao.html', {'questao': questao})
-    raise PermissionDenied()
-
-
-def gravaopcao(request, questao_id):
-    if request.user.is_superuser:
-        questao = get_object_or_404(Questao, pk=questao_id)
+    if not request.user.is_superuser:
+        raise PermissionDenied()
+    questao = get_object_or_404(Questao, pk=questao_id)
+    if request.method == 'POST':
         try:
             opcao = request.POST['opcao']
         except:
             # Apresenta de novo o form para votar
             return render(request, 'votacao/criaropcao.html',
-                          {'questao': questao, 'error_message': "Erro ao criar opçao", })
+                              {'questao': questao, 'error_message': "Erro ao criar opçao", })
         else:
             questao.opcao_set.create(opcao_texto=opcao, votos=0)
             return HttpResponseRedirect(reverse('votacao:detalhe', args=(questao.id,)))
-    raise PermissionDenied()
+    return render(request, 'votacao/criaropcao.html', {'questao': questao})
+
+
+
 
 
 def register(request):
@@ -140,30 +135,40 @@ def personalinfo(request):
     aluno = get_object_or_404(Aluno, user_id=request.user.id)
     return render(request, 'votacao/personalinfo.html', {'aluno': aluno})
 
+def excluirquestao(request, questao_id):
+    questao = get_object_or_404(Questao, pk=questao_id)
+    try:
+        questao.delete()
+    except:
+        return render(request, 'votacao/detalhe.html', {'questao': questao, 'error_message': "Erro ao excluir questão", })
+    else:
+        return HttpResponseRedirect(reverse('votacao:index'))
+
 
 def excluirquestao(request, questao_id):
-    if request.user.is_superuser:
-        questao = get_object_or_404(Questao, pk=questao_id)
-        try:
-            questao.delete()
-        except:
-            return render(request, 'votacao/detalhe.html', {'questao': questao, 'error_message': "Erro ao excluir questão", })
-        else:
-            return HttpResponseRedirect(reverse('votacao:index'))
-    raise PermissionDenied()
+    if not request.user.is_superuser:
+        raise PermissionDenied()
+    questao = get_object_or_404(Questao, pk=questao_id)
+    try:
+        questao.delete()
+    except:
+        return render(request, 'votacao/detalhe.html', {'questao': questao, 'error_message': "Erro ao excluir questão", })
+    else:
+        return HttpResponseRedirect(reverse('votacao:index'))
 
 
 def excluiropcao(request, questao_id, opcao_id):
-    if request.user.is_superuser:
-        questao = get_object_or_404(Questao, pk=questao_id)
-        opcao = get_object_or_404(Opcao, pk=opcao_id)
-        try:
-            opcao.delete()
-        except:
-            return render(request, 'votacao/detalhe.html', {'questao': questao, 'error_message': "Erro ao excluir opção", })
-        else:
-            return HttpResponseRedirect(reverse('votacao:detalhe', args=(questao.id,)))
-    raise PermissionDenied()
+    if not request.user.is_superuser:
+        raise PermissionDenied()
+    questao = get_object_or_404(Questao, pk=questao_id)
+    opcao = get_object_or_404(Opcao, pk=opcao_id)
+    try:
+         opcao.delete()
+    except:
+        return render(request, 'votacao/detalhe.html', {'questao': questao, 'error_message': "Erro ao excluir opção", })
+    else:
+        return HttpResponseRedirect(reverse('votacao:detalhe', args=(questao.id,)))
+
 
 
 

@@ -46,7 +46,7 @@ input[type="submit"]:hover {
 {% if error_message %}
 <p><strong>{{ error_message }}</strong></p>
 {% endif %}
-<form action="{% url 'votacao:gravaquestao' %}"
+<form action="#"
 method="post">
 {% csrf_token %}
     <label for="questao">Texto da nova questão: </label>
